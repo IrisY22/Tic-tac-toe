@@ -4,6 +4,7 @@ import Player from "./cmps/Player"
 import GameBoard from "./cmps/GameBoard"
 import Log from "./Log"
 import { WINNING_COMBINATIONS } from "./winning-combinations"
+import GameOver from "./GameOver"
 
 
 const initialGameBoard = [
@@ -50,8 +51,9 @@ function App() {
     ) {
       winner = firstSquareSymbol;
     }
-
   }
+
+  const hasDraw = gameTurns.length === 9 && !winner
 
   function handleSelectSquare(rowIndex, colIndex) {
     // setActivePlayer((currActivePlayer) => currActivePlayer === 'X' ? 'O' : 'X')
@@ -74,7 +76,7 @@ function App() {
           <Player initialName="Player 1" symbol="X" isActive={activePlayer === 'X'} />
           <Player initialName="Player 2" symbol="O" isActive={activePlayer === 'O'} />
         </ol>
-        {winner && <p>You won, {winner}!</p>}
+        {(winner || hasDraw) && <GameOver winner={winner} />}
         <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
